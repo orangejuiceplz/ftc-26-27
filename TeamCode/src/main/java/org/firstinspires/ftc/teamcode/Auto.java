@@ -14,9 +14,7 @@ public class Auto extends LinearOpMode {
     static final double TICKS_PER_REV = 537.7;
     static final double WHEEL_DIAMETER_IN = 3.77953;
     static final double TICKS_PER_INCH = TICKS_PER_REV / (WHEEL_DIAMETER_IN * Math.PI);
-
-    static final double DRIVE_DISTANCE_IN = 24.0;
-    static final double DRIVE_POWER = 0.5;
+    static final double power = 0.5;
 
     @Override
     public void runOpMode() {
@@ -37,7 +35,7 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
-        driveInches(DRIVE_DISTANCE_IN, DRIVE_POWER);
+        driveInches(12, power);
     }
 
     public void driveInches(double inches, double power) {
@@ -54,12 +52,12 @@ public class Auto extends LinearOpMode {
         motor_left.setPower(power);
         motor_right.setPower(power);
 
-        while (opModeIsActive() && motor_left.isBusy() && motor_right.isBusy()) {
-            telemetry.addData("Left Pos", motor_left.getCurrentPosition());
-            telemetry.addData("Right Pos", motor_right.getCurrentPosition());
-            telemetry.addData("Target", leftTarget);
-            telemetry.update();
-        }
+//        while (opModeIsActive() && motor_left.isBusy() && motor_right.isBusy()) {
+//            telemetry.addData("Left Pos", motor_left.getCurrentPosition());
+//            telemetry.addData("Right Pos", motor_right.getCurrentPosition());
+//            telemetry.addData("Target", leftTarget);
+//            telemetry.update();
+//        }
 
         motor_left.setPower(0);
         motor_right.setPower(0);
