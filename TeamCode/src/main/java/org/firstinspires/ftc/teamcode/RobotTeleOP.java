@@ -21,8 +21,8 @@ public class RobotTeleOP extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        leftWheel = hardwareMap.get(DcMotor.class, "leftWheel");
-        rightWheel = hardwareMap.get(DcMotor.class, "rightWheel");
+        leftWheel = hardwareMap.get(DcMotor.class, "Left");
+        rightWheel = hardwareMap.get(DcMotor.class, "Right");
 
         leftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -18,8 +18,8 @@ public class Auto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        motor_right = hardwareMap.get(DcMotor.class, "motor_right");
-        motor_left = hardwareMap.get(DcMotor.class, "motor_left");
+        motor_right = hardwareMap.get(DcMotor.class, "Right");
+        motor_left = hardwareMap.get(DcMotor.class, "Left");
 
         motor_left.setDirection(DcMotorSimple.Direction.REVERSE);
         motor_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -52,12 +52,12 @@ public class Auto extends LinearOpMode {
         motor_left.setPower(power);
         motor_right.setPower(power);
 
-//        while (opModeIsActive() && motor_left.isBusy() && motor_right.isBusy()) {
-//            telemetry.addData("Left Pos", motor_left.getCurrentPosition());
-//            telemetry.addData("Right Pos", motor_right.getCurrentPosition());
-//            telemetry.addData("Target", leftTarget);
-//            telemetry.update();
-//        }
+        while (opModeIsActive() && motor_left.isBusy() && motor_right.isBusy()) {
+            telemetry.addData("Left Pos", motor_left.getCurrentPosition());
+            telemetry.addData("Right Pos", motor_right.getCurrentPosition());
+            telemetry.addData("Target", leftTarget);
+            telemetry.update();
+        }
 
         motor_left.setPower(0);
         motor_right.setPower(0);
