@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Robot TeleOp With Turret")
 public class TeleOPWithTurret extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime servoTimer = new ElapsedTime();
     private DcMotor leftWheel;
     private DcMotor rightWheel;
     private DcMotor intakeMotor;
@@ -24,7 +25,8 @@ public class TeleOPWithTurret extends LinearOpMode {
     private static final double servoRestPosition = 0;
     private static final double servoRotatedPosition = 135 / servoRangeDegrees;
     private static final double triggerThreshold = 0.25;
-    private static final double flywheelPower = 0;
+    private static final double servoHoldSeconds = 1.0;
+    private static final double flywheelPower = 0.8;
     private static final double intakePower = 1;
 
     @Override
@@ -58,6 +60,8 @@ public class TeleOPWithTurret extends LinearOpMode {
         double rightCurrentPower = 0;
         boolean intakeEnabled = true;
         boolean previousX = false;
+        boolean previousTrigger = false;
+        boolean servoRotated = false;
 
         runtime.reset();
 
@@ -65,7 +69,7 @@ public class TeleOPWithTurret extends LinearOpMode {
             double dt = runtime.seconds();
             runtime.reset();
 
-            double forward = -gamepad1.left_stick_y;
+            double forward = gamepad1.left_stick_y;
             double turn = gamepad1.left_stick_x;
 
             if (Math.abs(forward) < stop) {
@@ -98,7 +102,15 @@ public class TeleOPWithTurret extends LinearOpMode {
             previousX = gamepad1.x;
             intakeMotor.setPower(intakeEnabled ? intakePower : 0);
 
-            boolean servoRotated = gamepad1.right_trigger >= triggerThreshold;
+            boolean trigger = gamepad1.right_trigger >= triggerThreshold;
+            if (trigger && !previousTrigger && !servoRotated) {
+                servoRotated = true;
+                servoTimer.reset();
+            }
+            previousTrigger = trigger;
+            if (servoRotated && servoTimer.seconds() >= servoHoldSeconds) {
+                servoRotated = false;
+            }
             servo.setPosition(servoRotated ? servoRotatedPosition : servoRestPosition);
 
             telemetry.addData("Intake running", intakeEnabled);
