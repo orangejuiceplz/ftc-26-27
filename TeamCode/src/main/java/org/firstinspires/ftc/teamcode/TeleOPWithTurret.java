@@ -24,7 +24,7 @@ public class TeleOPWithTurret extends LinearOpMode {
     private static final double servoRestPosition = 0;
     private static final double servoRotatedPosition = 135 / servoRangeDegrees;
     private static final double triggerThreshold = 0.25;
-    private static final double flywheelPower = 0       ;
+    private static final double flywheelPower = 0;
     private static final double intakePower = 1;
 
     @Override
@@ -44,8 +44,7 @@ public class TeleOPWithTurret extends LinearOpMode {
         flywheelMotor.setPower(0);
         servo.setPosition(servoRestPosition);
 
-        telemetry.addData("Init", "Robot initialized");
-        telemetry.update();
+//        telemetry.addData("Init", "Robot initializelemetry.update();
 
         waitForStart();
 
