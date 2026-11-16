@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.robot.Robot;
 
-@Autonomous(name = "Auto_Drive_2ft")
+@Autonomous(name = "Auto_Drive_2ft", preselectTeleOp = "RobotTeleOP")
 public class Auto extends LinearOpMode {
 
     private DcMotor motor_right;
@@ -18,23 +19,9 @@ public class Auto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        motor_right = hardwareMap.get(DcMotor.class, "Right");
-        motor_left = hardwareMap.get(DcMotor.class, "Left");
-
-        motor_left.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motor_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        telemetry.addData("Status", "Initialized. Ticks/Inch: %.2f", TICKS_PER_INCH);
-        telemetry.update();
-
+        initHardware();
+        updateAndAddTelemetry();
         waitForStart();
-
         driveInches(12, power);
     }
 
@@ -63,5 +50,24 @@ public class Auto extends LinearOpMode {
         motor_right.setPower(0);
         motor_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    private void initHardware() {
+        motor_right = hardwareMap.get(DcMotor.class, "Right");
+        motor_left = hardwareMap.get(DcMotor.class, "Left");
+
+        motor_left.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motor_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    private void updateAndAddTelemetry() {
+        telemetry.addData("Status", "Initialized. Ticks/Inch: %.2f", TICKS_PER_INCH);
+        telemetry.update();
     }
 }
